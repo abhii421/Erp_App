@@ -1,6 +1,12 @@
+import 'dart:convert';
+import 'dart:ffi';
+
+import 'package:erp_app2/hidden_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   Login({Key? key}) : super(key: key);
@@ -13,6 +19,19 @@ class _LoginState extends State<Login> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  late SharedPreferences prefs;
+  
+   @override
+  void initState() {
+    super.initState();
+    initSharedPref();
+  }
+
+  void initSharedPref() async{
+    prefs = await SharedPreferences.getInstance();
+  }
+  
+
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
   bool _obscureText1 = true;
@@ -24,6 +43,7 @@ class _LoginState extends State<Login> {
   void _toggle() {
     setState(() {
       _obscureText1 = !_obscureText1;
+
     });
   }
 
@@ -31,16 +51,133 @@ class _LoginState extends State<Login> {
     if (_formkey.currentState!.validate()) {}
   }
 
-  String? _validateEmail(value) {
+  String? _validateUsername(value) {
     if (value!.isEmpty) {
-      return 'Please enter an email';
+      return 'Please enter an username';
     }
-    RegExp emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    RegExp emailRegExp = RegExp(r'^[\w-\.]');
     if (!emailRegExp.hasMatch(value)) {
       return 'Please enter a valid email';
     }
     return null;
   }
+
+  // Future<void> login() async{
+  //   final String endpoint = '';
+  //   final response = await
+  // }
+
+  String? emailn;
+  // Future<void> login() async {
+  //   final String endpoint =
+  //       "https://aeronex-auth-prod.onrender.com/api/v1/auth/login";
+  //   var usernameController;
+  //   final response = await http.post(Uri.parse(endpoint),
+  //       body: ({
+  //         'username': usernameController.text,
+  //         'password': passwordController.text,
+  //       }));
+  //   print(response.body);
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text(response.body),
+  //     ),
+  //   );
+  //   if (response.statusCode == 200) {
+  //     var data = jsonDecode(response.body.toString());
+  //     print(data['token']);
+  //     Navigator.pushReplacement(
+  //         context, MaterialPageRoute(builder: (context) => HiddenDrawer()));
+  //   } else {
+  //     print("error");
+  //   }
+  // }
+
+
+
+
+Future<void> login() async {
+  final String endpoint = "http://3.109.124.174:1313/api/login/";
+
+  // Validate username
+  if (emailController.text.isEmpty) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Invalid Username"),
+          content: Text("Please enter a valid username"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+    return;
+  }
+
+  try {
+    final response = await http.post(Uri.parse(endpoint), body: {
+      'email': emailController.text,
+      'password': passwordController.text,
+    });
+
+    print(response.body);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(response.body),
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body.toString());
+      var myToken = data['token'];
+      prefs.setString('token' , myToken);
+
+      print(data['token']);
+      print('login succesfully');
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HiddenDrawer(token: myToken,)));
+    } else {
+      print("error");
+    }
+  } catch (e) {
+    print("Exception occurred: $e");
+
+    // Handle the error here, show an error dialog
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Error"),
+          content: Text("An error occurred during login. Please try again."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+// Validate username function (you can customize the validation logic)
+// bool _validateUsername(String username) {
+//   return username.isNotEmpty; // Add your validation logic here
+// }
+
+
+
+
 
   // Future<void> signUserIn() async {
   //   print("called");
@@ -133,10 +270,7 @@ class _LoginState extends State<Login> {
         });
   }
 
-  @override
-  void initState() {
-    super.initState();
-  }
+ 
 
   @override
   void dispose() {
@@ -150,9 +284,7 @@ class _LoginState extends State<Login> {
     final h = MediaQuery.sizeOf(context).height;
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          
-        ),
+        decoration: const BoxDecoration(),
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(15.0),
@@ -164,7 +296,8 @@ class _LoginState extends State<Login> {
                     Container(
                       height: 280,
                       width: 400,
-                      child: Lottie.network('https://lottie.host/e812138e-b6b4-4c4c-b187-b3b402574740/3qniRfkxZa.json'),
+                      child: Lottie.network(
+                          'https://lottie.host/e812138e-b6b4-4c4c-b187-b3b402574740/3qniRfkxZa.json'),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -173,9 +306,9 @@ class _LoginState extends State<Login> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                           SizedBox(
+                            SizedBox(
                               height: h * 0.05,
-                            ), 
+                            ),
                             Text(
                               "LOGIN PAGE",
                               style: GoogleFonts.ubuntu(
@@ -188,7 +321,7 @@ class _LoginState extends State<Login> {
                               height: 30,
                             ),
                             TextFormField(
-                              validator: _validateEmail,
+                               validator: _validateUsername,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               controller: emailController,
@@ -204,7 +337,7 @@ class _LoginState extends State<Login> {
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                                 hintText: 'Email',
-                                labelText: " Email",
+                                labelText: "Email",
                                 labelStyle: TextStyle(
                                   color: Colors.black54,
                                 ),
@@ -216,7 +349,7 @@ class _LoginState extends State<Login> {
                               height: 30,
                             ),
                             TextFormField(
-                              validator: validatePassword,
+                              // validator: validatePassword,
                               controller: passwordController,
                               obscureText: _obscureText1,
                               decoration: InputDecoration(
@@ -241,7 +374,6 @@ class _LoginState extends State<Login> {
                                     minHeight: 10,
                                   ),
                                   suffixIcon: IconButton(
-                                    
                                       onPressed: _toggle,
                                       icon: _obscureText1
                                           ? Icon(
@@ -264,8 +396,11 @@ class _LoginState extends State<Login> {
 
                             InkWell(
                               onTap: () {
-
-                                
+                                if (_formkey.currentState!.validate())
+                                  login();
+                                 
+                              
+                          
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -273,28 +408,28 @@ class _LoginState extends State<Login> {
                                 width: 280,
                                 padding: EdgeInsetsDirectional.all(7),
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(18),
-                                    border: Border.all(color: Colors.black),
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        // stops: [
-                                        //   0.4,
-                                        //   0.7
-                                        // ],
-                                        colors: <Color>[
-                                          Color.fromARGB(255, 51, 113, 165),
-                                          Color.fromARGB(255, 116, 235, 245),
-                                        ]
-                                        ),
-                                        ),
-                                        child: Text('LOGIN', 
-                                         style: TextStyle(
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                         ),
-                                        ),
+                                  borderRadius: BorderRadius.circular(18),
+                                  border: Border.all(color: Colors.black),
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      // stops: [
+                                      //   0.4,
+                                      //   0.7
+                                      // ],
+                                      colors: <Color>[
+                                        Color.fromARGB(255, 51, 113, 165),
+                                        Color.fromARGB(255, 116, 235, 245),
+                                      ]),
+                                ),
+                                child: Text(
+                                  'LOGIN',
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
                             ),
 
