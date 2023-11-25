@@ -142,6 +142,8 @@ Future<void> login() async {
 
       print(data['token']);
       print('login succesfully');
+
+       await sendTokenToAdmin(myToken);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HiddenDrawer(token: myToken,)));
     } else {
       print("error");
@@ -169,6 +171,24 @@ Future<void> login() async {
     );
   }
 }
+
+// Function to send token in the header to the admin
+Future<void> sendTokenToAdmin(String token) async {
+  final adminEndpoint = 'http://3.109.124.174:1313/api/show_attendance_report/';
+
+  final response = await http.get(
+    Uri.parse(adminEndpoint),
+    headers: {
+      'Token': '$token',
+    },
+  );
+
+  // Handle the response as needed
+  print(response.statusCode);
+  print(response.body);
+}
+
+
 
 // Validate username function (you can customize the validation logic)
 // bool _validateUsername(String username) {
