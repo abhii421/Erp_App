@@ -9,7 +9,7 @@
 //   State<New> createState() => _NewState();
 // }
 
-// class _NewState extends State<New> {x
+// class _NewState extends State<New> {
 
 //   late String email;
 //   @override
