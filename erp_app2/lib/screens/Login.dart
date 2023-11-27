@@ -304,7 +304,13 @@ Future<void> sendTokenToAdmin(String token) async {
     final h = MediaQuery.sizeOf(context).height;
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(),
+        decoration: const BoxDecoration(
+
+          image: DecorationImage(
+            image: AssetImage("assets/images/Login screen 2 phone (2).png"),
+            fit: BoxFit.cover,
+          ),
+        ),
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(15.0),

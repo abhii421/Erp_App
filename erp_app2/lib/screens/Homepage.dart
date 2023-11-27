@@ -3,22 +3,38 @@ import 'dart:ui';
 
 import 'package:erp_app2/screens/Containers.dart';
 import 'package:erp_app2/screens/additional.dart';
+import 'package:erp_app2/screens/token.dart';
 import 'package:erp_app2/subject.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class Homepage extends StatefulWidget {
-  const Homepage({Key? key}) : super(key: key);
+  final token;
+  const Homepage({Key? key, this.token}) : super(key: key);
 
   @override
   State<Homepage> createState() => _HomepageState();
 }
 
 class _HomepageState extends State<Homepage> {
+  String? Name;
+  String? Email;
   String? selectedSubject;
+  int? selectedSubjectTotalPresent;
+  int? selectedSubjectTotalAbsent;
+
   String? selected1;
   int? selected1TotalPresent;
   int? selected1TotalAbsent;
+  String? selected2;
+  int? selected2TotalPresent;
+  int? selected2TotalAbsent;
+  String? selected3;
+  int? selected3TotalPresent;
+  int? selected3TotalAbsent;
+  String? selected4;
+  int? selected4TotalPresent;
+  int? selected4TotalAbsent;
 
   @override
   void initState() {
@@ -28,10 +44,19 @@ class _HomepageState extends State<Homepage> {
 
   Future<void> getData() async {
     try {
+      String? token = await TokenManager.getToken();
+
+      if (token == null) {
+        // Handle case where token is not available
+        print('Token is null. User might not be logged in.');
+        return;
+      }
       var headers = {
-        'Token':
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic3R1ZGVudDAxIiwicm9sZSI6InN0dWRlbnQifQ.UkULa-lSkrgCyxlHi106ocV1261_YpI3tFbxRfk09lg', // Replace with your actual token
+        'Token': token,
+        //
       };
+      print('hi.........');
+      print(token);
 
       var response = await http.get(
         Uri.parse('http://3.109.124.174:1313/api/show_attendance_report/'),
@@ -42,8 +67,43 @@ class _HomepageState extends State<Homepage> {
         var jsonData = jsonDecode(response.body) as List<dynamic>;
 
         // Assuming you want the subject at index 0 (you can change this as needed)
+
+        // var estimatedCgpa = jsonData.isNotEmpty
+        //     ? jsonData.last['Estimated CGPA'] as double?
+        //     : null;
+        // var overallPercentage = jsonData.isNotEmpty
+        //     ? jsonData.last['overall_percentage'] as double?
+        //     : null;
+        var estimatedCgpa = jsonData.isNotEmpty
+            ? (jsonData.last['Estimated CGPA'] as num?)?.toDouble()
+            : null;
+        var overallPercentage = jsonData.isNotEmpty
+            ? jsonData.last['overall_percentage'] as num?
+            : null;
+
+        print("estimated CGPA: $estimatedCgpa");
+        print("overall Percentage: $overallPercentage");
+
+        var firstName =
+            jsonData.isNotEmpty ? jsonData.last['First Name'] as String? : null;
+        var email =
+            jsonData.isNotEmpty ? jsonData.last['Email'] as String? : null;
+        var totalSubjects =
+            jsonData.isNotEmpty ? jsonData.last['Toal Subjects'] as int? : null;
+
+        // Printing the result
+        print("First Name: $firstName");
+        print("Email: $email");
+        print("subjects: $totalSubjects");
+
         var firstSubject =
             jsonData.isNotEmpty ? jsonData[0]['subject'] as String? : null;
+
+        var firstSubjectTotalPresent =
+            jsonData.isNotEmpty ? jsonData[0]['total_present'] as int? : null;
+        var firstSubjectTotalAbsent =
+            jsonData.isNotEmpty ? jsonData[0]['total_absent'] as int? : null;
+
         var secondSubject =
             jsonData.isNotEmpty ? jsonData[1]['subject'] as String? : null;
         var secondSubjectTotalPresent =
@@ -51,21 +111,75 @@ class _HomepageState extends State<Homepage> {
         var secondSubjectTotalAbsent =
             jsonData.isNotEmpty ? jsonData[1]['total_absent'] as int? : null;
 
-        if (secondSubject != null) {
+        var thirdSubject =
+            jsonData.isNotEmpty ? jsonData[2]['subject'] as String? : null;
+        var thirdSubjectTotalPresent =
+            jsonData.isNotEmpty ? jsonData[2]['total_present'] as int? : null;
+        var thirdSubjectTotalAbsent =
+            jsonData.isNotEmpty ? jsonData[2]['total_absent'] as int? : null;
+
+        var forthSubject =
+            jsonData.isNotEmpty ? jsonData[3]['subject'] as String? : null;
+        var forthSubjectTotalPresent =
+            jsonData.isNotEmpty ? jsonData[3]['total_present'] as int? : null;
+        var forthSubjectTotalAbsent =
+            jsonData.isNotEmpty ? jsonData[3]['total_absent'] as int? : null;
+
+        var fifthSubject =
+            jsonData.isNotEmpty ? jsonData[4]['subject'] as String? : null;
+        var fifthSubjectTotalPresent =
+            jsonData.isNotEmpty ? jsonData[4]['total_present'] as int? : null;
+        var fifthSubjectTotalAbsent =
+            jsonData.isNotEmpty ? jsonData[4]['total_absent'] as int? : null;
+
+        if (firstName != null) {
           setState(() {
-            selected1 = secondSubject;
-            selected1TotalPresent = secondSubjectTotalPresent;
-            selected1TotalAbsent = secondSubjectTotalAbsent;
+            Name = firstName;
+            Email = email;
           });
+
+          if (secondSubject != null) {
+            setState(() {
+              selected1 = secondSubject;
+              selected1TotalPresent = secondSubjectTotalPresent;
+              selected1TotalAbsent = secondSubjectTotalAbsent;
+            });
+          }
 
           print('Selected Subject: $selected1');
           print('Selected1 Total Present: $selected1TotalPresent');
           print('Selected1 Total Absent: $selected1TotalAbsent');
         }
 
+        if (secondSubject != null) {
+          setState(() {
+            selected2 = thirdSubject;
+            selected2TotalPresent = thirdSubjectTotalPresent;
+            selected2TotalAbsent = thirdSubjectTotalAbsent;
+          });
+        }
+
+        if (secondSubject != null) {
+          setState(() {
+            selected3 = forthSubject;
+            selected3TotalPresent = forthSubjectTotalPresent;
+            selected3TotalAbsent = forthSubjectTotalAbsent;
+          });
+        }
+
+        if (secondSubject != null) {
+          setState(() {
+            selected4 = fifthSubject;
+            selected4TotalPresent = fifthSubjectTotalPresent;
+            selected4TotalAbsent = fifthSubjectTotalAbsent;
+          });
+        }
+
         if (firstSubject != null) {
           setState(() {
             selectedSubject = firstSubject;
+            selectedSubjectTotalPresent = firstSubjectTotalPresent;
+            selectedSubjectTotalAbsent = firstSubjectTotalAbsent;
           });
 
           // Print the selected subject
@@ -89,6 +203,22 @@ class _HomepageState extends State<Homepage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Hello $Name',
+                      style: TextStyle(fontSize: 25),
+                    ),
+                    Text(
+                      '$Email',
+                      style: TextStyle(fontSize: 25),
+                    ),
+                  ],
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 25,
@@ -223,8 +353,8 @@ class _HomepageState extends State<Homepage> {
                         builder: (context) => SubjectScreen(
                           subject: selectedSubject ?? '',
                           totalPresent:
-                              selected1TotalPresent, // Replace with actual values
-                          totalAbsent: selected1TotalAbsent,
+                              selectedSubjectTotalPresent, // Replace with actual values
+                          totalAbsent: selectedSubjectTotalAbsent,
                           // subject: subject,
                           // totalPresent: totalPresent,
                           // totalAbsent: totalAbsent,
@@ -237,7 +367,89 @@ class _HomepageState extends State<Homepage> {
               SizedBox(
                 height: 10,
               ),
-              ContainerPage(Subject: '$selected1', Attendance: ' Attendance'),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SubjectScreen(
+                        subject: selected1 ?? '',
+                        totalPresent:
+                            selected1TotalPresent, // Replace with actual values
+                        totalAbsent: selected1TotalAbsent,
+                      ),
+                    ),
+                  );
+                },
+                child: ContainerPage(
+                    Subject: '$selected1', Attendance: ' Attendance'),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SubjectScreen(
+                        subject: selected2 ?? '',
+                        totalPresent:
+                            selected2TotalPresent, // Replace with actual values
+                        totalAbsent: selected2TotalAbsent,
+                      ),
+                    ),
+                  );
+                },
+                child: ContainerPage(
+                    Subject: '$selected2', Attendance: ' Attendance'),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SubjectScreen(
+                        subject: selected3 ?? '',
+                        totalPresent:
+                            selected3TotalPresent, // Replace with actual values
+                        totalAbsent: selected3TotalAbsent,
+                      ),
+                    ),
+                  );
+                },
+                child: ContainerPage(
+                    Subject: '$selected3', Attendance: ' Attendance'),
+              ),
+              //   SizedBox(
+              //   height: 10,
+              // ),
+
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SubjectScreen(
+                          subject: selected4 ?? '',
+                          totalPresent:
+                              selected4TotalPresent, // Replace with actual values
+                          totalAbsent: selected4TotalAbsent,
+                        ),
+                      ),
+                    );
+                  },
+                  child: ContainerPage(
+                      Subject: '$selected4', Attendance: ' Attendance'),
+                ),
+              ),
             ],
           ),
         ),
