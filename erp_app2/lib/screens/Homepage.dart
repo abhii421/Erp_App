@@ -6,6 +6,7 @@ import 'package:erp_app2/screens/additional.dart';
 import 'package:erp_app2/screens/token.dart';
 import 'package:erp_app2/subject.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 class Homepage extends StatefulWidget {
@@ -19,9 +20,12 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   String? Name;
   String? Email;
+  int? Subjects;
   String? selectedSubject;
   int? selectedSubjectTotalPresent;
   int? selectedSubjectTotalAbsent;
+  double? OverallPercentage;
+  double? EstimatedCgpa;
 
   String? selected1;
   int? selected1TotalPresent;
@@ -35,6 +39,9 @@ class _HomepageState extends State<Homepage> {
   String? selected4;
   int? selected4TotalPresent;
   int? selected4TotalAbsent;
+  int? TotalAbsent;
+  int? TotalPresent;
+  int? TotalClasses;
 
   @override
   void initState() {
@@ -59,14 +66,12 @@ class _HomepageState extends State<Homepage> {
       print(token);
 
       var response = await http.get(
-        Uri.parse('http://3.109.124.174:1313/api/show_attendance_report/'),
+        Uri.parse('https://erp.anaskhan.site/api/show_attendance_report/'),
         headers: headers,
       );
 
       if (response.statusCode == 200) {
         var jsonData = jsonDecode(response.body) as List<dynamic>;
-
-        // Assuming you want the subject at index 0 (you can change this as needed)
 
         // var estimatedCgpa = jsonData.isNotEmpty
         //     ? jsonData.last['Estimated CGPA'] as double?
@@ -74,12 +79,47 @@ class _HomepageState extends State<Homepage> {
         // var overallPercentage = jsonData.isNotEmpty
         //     ? jsonData.last['overall_percentage'] as double?
         //     : null;
-        var estimatedCgpa = jsonData.isNotEmpty
-            ? (jsonData.last['Estimated CGPA'] as num?)?.toDouble()
-            : null;
-        var overallPercentage = jsonData.isNotEmpty
-            ? jsonData.last['overall_percentage'] as num?
-            : null;
+        // var estimatedCgpa = jsonData.isNotEmpty
+        //     ? (jsonData.last['Estimated CGPA'] as num?)?.toDouble()
+        //     : null;
+        // var overallPercentage = jsonData.isNotEmpty
+        //     ? jsonData.last['overall_percentage'] as num?
+        //     : null;
+        // var overallPercentage = jsonData.isNotEmpty ? jsonData.last['overall_percentage'] as double? : null;
+        // var estimatedCgpa = jsonData.isNotEmpty ? (jsonData.last[9]['Estimated CGPA'] as num?)?.toDouble() : null;
+        // var estimatedCgpa = jsonData.isNotEmpty ? jsonData.last[9]['Estimated CGPA'] as double? : null;
+
+        var totalPresent = jsonData[5]['total_present'] as int?;
+        var totalAbsent = jsonData[6]['total_absent'] as int?;
+        var totalClasses = jsonData[7]['total_classes'] as int?;
+
+        print("Total Present: $totalPresent");
+        print("Total Absent: $totalAbsent");
+        print("Total Classes: $totalClasses");
+
+        var estimatedCgpa;
+        if (jsonData.isNotEmpty) {
+          var estimatedCgpaData = jsonData.firstWhere(
+            (element) => element.containsKey('Estimated CGPA'),
+            orElse: () => null,
+          );
+
+          estimatedCgpa = estimatedCgpaData != null
+              ? estimatedCgpaData['Estimated CGPA'] as double?
+              : null;
+        }
+
+        var overallPercentage;
+        if (jsonData.isNotEmpty) {
+          var overallPercentageData = jsonData.firstWhere(
+            (element) => element.containsKey('overall_percentage'),
+            orElse: () => null,
+          );
+
+          overallPercentage = overallPercentageData != null
+              ? overallPercentageData['overall_percentage'] as double?
+              : null;
+        }
 
         print("estimated CGPA: $estimatedCgpa");
         print("overall Percentage: $overallPercentage");
@@ -136,7 +176,35 @@ class _HomepageState extends State<Homepage> {
           setState(() {
             Name = firstName;
             Email = email;
+            Subjects = totalSubjects;
+            // OverallPercentage = overallPercentage;
+            // EstimatedCgpa = estimatedCgpa;
           });
+          if (estimatedCgpa != null) {
+            setState(() {
+              EstimatedCgpa = estimatedCgpa;
+            });
+          }
+          if (totalClasses != null) {
+            setState(() {
+              TotalClasses = totalClasses;
+            });
+          }
+          if (totalPresent != null) {
+            setState(() {
+              TotalPresent = totalPresent;
+            });
+          }
+          if (totalAbsent != null) {
+            setState(() {
+              TotalAbsent = totalAbsent;
+            });
+          }
+          if (overallPercentage != null) {
+            setState(() {
+              OverallPercentage = overallPercentage;
+            });
+          }
 
           if (secondSubject != null) {
             setState(() {
@@ -202,27 +270,60 @@ class _HomepageState extends State<Homepage> {
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Hello $Name',
-                      style: TextStyle(fontSize: 25),
+                    // Text(
+                    //   'Hello, $Name',
+                    //   style: TextStyle(fontSize: 25),
+                    // ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 23, top: 8),
+                      child: RichText(
+                        text: TextSpan(
+                          text: "Hello, ",
+                          style: GoogleFonts.ubuntu(
+                            textStyle: const TextStyle(
+                              color: Color.fromARGB(255, 224, 2, 2),
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: "$Name",
+                              style: GoogleFonts.ubuntu(
+                                textStyle: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    Text(
-                      '$Email',
-                      style: TextStyle(fontSize: 25),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 24,
+                      ),
+                      child: Text(
+                        '$Email',
+                        style: TextStyle(fontSize: 18),
+                      ),
                     ),
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 25,
-                  vertical: 20,
+                  horizontal: 20,
+                  vertical: 10,
                 ),
                 child: Container(
                   decoration: BoxDecoration(
@@ -265,17 +366,40 @@ class _HomepageState extends State<Homepage> {
                                     ),
                                   ),
                                 ),
+                                Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    'Subjects :- $Subjects',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.normal,
+                                      color:
+                                          const Color.fromARGB(255, 99, 98, 98),
+                                    ),
+                                  ),
+                                ),
                                 SizedBox(
-                                  height: 55,
+                                  height: 20,
                                 ),
                                 Align(
                                   alignment: Alignment.bottomRight,
                                   child: Text(
-                                    '81%',
+                                    '$OverallPercentage%',
                                     style: TextStyle(
                                       fontSize: 30,
                                       fontWeight: FontWeight.bold,
                                     ),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: Text(
+                                    ' Estimated Cgpa:-$EstimatedCgpa',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.normal,
+                                        color: const Color.fromARGB(
+                                            255, 120, 119, 119)),
                                   ),
                                 ),
                               ],
@@ -287,20 +411,24 @@ class _HomepageState extends State<Homepage> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Your Statistics',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
+              // SizedBox(
+              //   height: ,
+              // ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text(
+                  'Your Statistics',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(10.0),
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
+                  physics: BouncingScrollPhysics(),
                   child: Row(
                     children: [
                       AdditionalInfo(
@@ -314,16 +442,17 @@ class _HomepageState extends State<Homepage> {
                       AdditionalInfo(
                         image: Image.asset(
                             'assets/images/presentation_760138.png'),
-                        label: 'Course',
-                        value: 'B.Tech(1 Year)',
+                        label: 'Preview',
+                        value:
+                            'Total present :- $TotalPresent,               Total Absent:- $TotalAbsent',
                       ),
                       SizedBox(
                         width: 20,
                       ),
                       AdditionalInfo(
                         image: Image.asset('assets/images/cv_3194447.png'),
-                        label: 'Course',
-                        value: 'B.Tech(1 Year)',
+                        label: 'Lectures',
+                        value: 'Total Lectures :- $TotalClasses',
                       ),
                     ],
                   ),
@@ -332,11 +461,14 @@ class _HomepageState extends State<Homepage> {
               SizedBox(
                 height: 20,
               ),
-              Text(
-                'All Subjects',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.only(left: 16),
+                child: Text(
+                  'All Subjects',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               SizedBox(
@@ -345,86 +477,99 @@ class _HomepageState extends State<Homepage> {
               SizedBox(
                 height: 10,
               ),
-              GestureDetector(
+              Padding(
+                padding: const EdgeInsets.only(left: 18, right: 15),
+                child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SubjectScreen(
+                            subject: selectedSubject ?? '',
+                            totalPresent:
+                                selectedSubjectTotalPresent, // Replace with actual values
+                            totalAbsent: selectedSubjectTotalAbsent,
+                            // subject: subject,
+                            // totalPresent: totalPresent,
+                            // totalAbsent: totalAbsent,
+                          ),
+                        ),
+                      );
+                    },
+                    child: ContainerPage(
+                        Subject: '$selectedSubject',
+                        Attendance: ' Attendance')),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 18, right: 15),
+                child: GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => SubjectScreen(
-                          subject: selectedSubject ?? '',
+                          subject: selected1 ?? '',
                           totalPresent:
-                              selectedSubjectTotalPresent, // Replace with actual values
-                          totalAbsent: selectedSubjectTotalAbsent,
-                          // subject: subject,
-                          // totalPresent: totalPresent,
-                          // totalAbsent: totalAbsent,
+                              selected1TotalPresent, // Replace with actual values
+                          totalAbsent: selected1TotalAbsent,
                         ),
                       ),
                     );
                   },
                   child: ContainerPage(
-                      Subject: '$selectedSubject', Attendance: ' Attendance')),
-              SizedBox(
-                height: 10,
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SubjectScreen(
-                        subject: selected1 ?? '',
-                        totalPresent:
-                            selected1TotalPresent, // Replace with actual values
-                        totalAbsent: selected1TotalAbsent,
-                      ),
-                    ),
-                  );
-                },
-                child: ContainerPage(
-                    Subject: '$selected1', Attendance: ' Attendance'),
+                      Subject: '$selected1', Attendance: ' Attendance'),
+                ),
               ),
               SizedBox(
                 height: 10,
               ),
 
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SubjectScreen(
-                        subject: selected2 ?? '',
-                        totalPresent:
-                            selected2TotalPresent, // Replace with actual values
-                        totalAbsent: selected2TotalAbsent,
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SubjectScreen(
+                          subject: selected2 ?? '',
+                          totalPresent:
+                              selected2TotalPresent, // Replace with actual values
+                          totalAbsent: selected2TotalAbsent,
+                        ),
                       ),
-                    ),
-                  );
-                },
-                child: ContainerPage(
-                    Subject: '$selected2', Attendance: ' Attendance'),
+                    );
+                  },
+                  child: ContainerPage(
+                      Subject: '$selected2', Attendance: ' Attendance'),
+                ),
               ),
               SizedBox(
                 height: 10,
               ),
 
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SubjectScreen(
-                        subject: selected3 ?? '',
-                        totalPresent:
-                            selected3TotalPresent, // Replace with actual values
-                        totalAbsent: selected3TotalAbsent,
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SubjectScreen(
+                          subject: selected3 ?? '',
+                          totalPresent:
+                              selected3TotalPresent, // Replace with actual values
+                          totalAbsent: selected3TotalAbsent,
+                        ),
                       ),
-                    ),
-                  );
-                },
-                child: ContainerPage(
-                    Subject: '$selected3', Attendance: ' Attendance'),
+                    );
+                  },
+                  child: ContainerPage(
+                      Subject: '$selected3', Attendance: ' Attendance'),
+                ),
               ),
               //   SizedBox(
               //   height: 10,

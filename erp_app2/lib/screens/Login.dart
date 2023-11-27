@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:ffi';
-
 import 'package:erp_app2/hidden_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -97,7 +96,7 @@ class _LoginState extends State<Login> {
 
 
 Future<void> login() async {
-  final String endpoint = "http://3.109.124.174:1313/api/login/";
+  final String endpoint = "https://erp.anaskhan.site/api/login/";
 
   // Validate username
   if (emailController.text.isEmpty) {
@@ -174,7 +173,7 @@ Future<void> login() async {
 
 // Function to send token in the header to the admin
 Future<void> sendTokenToAdmin(String token) async {
-  final adminEndpoint = 'http://3.109.124.174:1313/api/show_attendance_report/';
+  final adminEndpoint = 'https://erp.anaskhan.site/api/show_attendance_report/';
 
   final response = await http.get(
     Uri.parse(adminEndpoint),
@@ -306,10 +305,10 @@ Future<void> sendTokenToAdmin(String token) async {
       body: Container(
         decoration: const BoxDecoration(
 
-          image: DecorationImage(
-            image: AssetImage("assets/images/Login screen 2 phone (2).png"),
-            fit: BoxFit.cover,
-          ),
+          // image: DecorationImage(
+          //   image: AssetImage("assets/images/Login screen 2 phone (2).png"),
+          //   fit: BoxFit.cover,
+          // ),
         ),
         child: Center(
           child: Padding(
@@ -320,13 +319,13 @@ Future<void> sendTokenToAdmin(String token) async {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      height: 280,
+                      height: 290,
                       width: 400,
                       child: Lottie.network(
                           'https://lottie.host/e812138e-b6b4-4c4c-b187-b3b402574740/3qniRfkxZa.json'),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(5.0),
                       child: Form(
                         key: _formkey,
                         child: Column(

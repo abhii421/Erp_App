@@ -4,7 +4,7 @@
 //   final int totalAbsent;
 
 //   SubjectData({
-//     required this.subject,
+//     required this.subject,                     
 //     required this.totalPresent,
 //     required this.totalAbsent,
 //   });
