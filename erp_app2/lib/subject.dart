@@ -25,7 +25,7 @@ class SubjectScreen extends StatelessWidget {
             Text('Subject: $subject'),
             Text('Total Present: ${totalPresent ?? 'N/A'}'),
             Text('Total Absent: ${totalAbsent ?? 'N/A'}'),
-            // Add more details if needed
+            
           ],
         ),
       ),

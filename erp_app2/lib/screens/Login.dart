@@ -322,7 +322,8 @@ Future<void> sendTokenToAdmin(String token) async {
                       height: 290,
                       width: 400,
                       child: Lottie.network(
-                          'https://lottie.host/e812138e-b6b4-4c4c-b187-b3b402574740/3qniRfkxZa.json'),
+                          'https://lottie.host/e812138e-b6b4-4c4c-b187-b3b402574740/3qniRfkxZa.json'
+                              ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(5.0),

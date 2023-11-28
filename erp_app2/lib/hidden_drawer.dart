@@ -1,6 +1,7 @@
 import 'dart:ffi';
 import 'package:erp_app2/Events/Event_page.dart';
 import 'package:erp_app2/Events/add_post.dart';
+import 'package:erp_app2/screens/Fees.dart';
 import 'package:erp_app2/screens/Homepage.dart';
 import 'package:erp_app2/screens/settingpage.dart';
 import 'package:erp_app2/signout.dart';
@@ -115,6 +116,27 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
          colorLineSelected: const Color.fromARGB(255, 251, 162, 45)
         ),
         MyHomePage1(),
+      ),
+
+         ScreenHiddenDrawer(
+        ItemHiddenMenu(
+          
+        name: 'Payment History',
+        baseStyle: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+          
+
+        ), 
+        selectedStyle: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+        colorLineSelected: const Color.fromARGB(255, 251, 162, 45)
+        ),
+          YourClassName(),
       ),
     ];
   }
