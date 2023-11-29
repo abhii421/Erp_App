@@ -11,14 +11,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 class Homepage extends StatefulWidget {
+
   final token;
-  const Homepage({Key? key, this.token}) : super(key: key);
+   const Homepage({Key? key, this.token}) : super(key: key);
 
   @override
   State<Homepage> createState() => _HomepageState();
 }
 
 class _HomepageState extends State<Homepage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+   final GlobalKey<_HomepageState> drawerKey = GlobalKey();
   String? Name;
   String? Email;
   int? Subjects;
@@ -267,6 +270,22 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar: AppBar(
+      //   title: Text('new'),
+      //   centerTitle: true,
+      //      leading: IconButton(
+      //     icon: const Icon(Icons.remove_red_eye_sharp),
+      //     onPressed: () {
+            
+      //      Scaffold.of(context).openDrawer();
+      //     },
+      //     tooltip: 'Open Drawer',
+      //   ),
+          
+          
+
+        
+      // ),
       body: Container(
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(

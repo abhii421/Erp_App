@@ -1,6 +1,7 @@
 import 'dart:ffi';
 import 'package:erp_app2/Events/Event_page.dart';
 import 'package:erp_app2/Events/add_post.dart';
+import 'package:erp_app2/screen2/adminpage.dart';
 import 'package:erp_app2/screens/Fees.dart';
 import 'package:erp_app2/screens/Homepage.dart';
 import 'package:erp_app2/screens/settingpage.dart';
@@ -76,7 +77,7 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
         ),
          colorLineSelected: const Color.fromARGB(255, 251, 162, 45)
         ),
-        const SettingPage(),
+        const MyWidget(),
       ),
 
         ScreenHiddenDrawer(
@@ -156,9 +157,13 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
       backgroundColorMenu: Color.fromARGB(255, 199, 181, 246) ,
       screens: _pages, 
       initPositionSelected: 0,
+      
       slidePercent: 50,
       contentCornerRadius: 25,
       boxShadow: [],
+          // verticalScalePercent: 80.0,
+        //    contentCornerRadius: 10.0,
+        //  elevationAppBar: 100.0
 
 
       
