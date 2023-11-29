@@ -75,7 +75,7 @@ class SubjectScreen extends StatelessWidget {
             fontSize: 24,
           ),
         ),
-        backgroundColor: Colors.amber, // Make the AppBar transparent
+        backgroundColor: Color.fromARGB(255, 183, 146, 247), // Make the AppBar transparent
         toolbarHeight: 80,
         elevation: 0, 
       ),
@@ -97,11 +97,11 @@ class SubjectScreen extends StatelessWidget {
               children: [
 
                 Padding(
-                  padding: const EdgeInsets.only(left: 40, top: 50),
-                  child: Text('Subject: $subject'),
+                  padding: const EdgeInsets.only(left: 45, top: 130, bottom: 50),
+                  child: Text('Subject: $subject', style: TextStyle( color: Colors.white, fontSize: 27, fontWeight: FontWeight.bold),),
                 ),
-                Text('Total Present: ${totalPresent ?? 'N/A'}'),
-                Text('Total Absent: ${totalAbsent ?? 'N/A'}'),
+                Text('      Total Present: ${totalPresent ?? 'N/A'}' , style: TextStyle( color: Colors.white, fontSize: 17, fontWeight: FontWeight.normal),),
+                Text('     Total Absent: ${totalAbsent ?? 'N/A'}' , style: TextStyle( color: Colors.white, fontSize: 17, fontWeight: FontWeight.normal),),
               ],
             ),
           ),
