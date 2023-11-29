@@ -66,50 +66,14 @@ class _MyHomePage1State extends State<MyHomePage1> {
 
         Scaffold(
       body: Padding(
+        
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
+          // mainAxisAlignment: MainAxisAlignment.start,
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.bottomCenter,
-                  colors: <Color>[
-                    Color.fromARGB(255, 184, 102, 236),
-                    Color.fromARGB(255, 140, 233, 244),
-                  ],
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(1.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text(
-                      'Add Events',
-                      style: TextStyle(fontSize: 24),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddPostScreen(),
-                          ),
-                        );
-                      },
-                      child: Image.asset(
-                        'assets/images/icon.png',
-                        height: 60,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+           
+
             SizedBox(
               height: 5,
             ),
@@ -143,6 +107,7 @@ class _MyHomePage1State extends State<MyHomePage1> {
             // ),
             Expanded(
               child: ListView.builder(
+                physics: BouncingScrollPhysics(),
                 itemCount: eventData.length, // Only one item for the single map
                 itemBuilder: (BuildContext context, int index) {
                   String tempTitle = eventData[index]['description'];
@@ -194,6 +159,67 @@ class _MyHomePage1State extends State<MyHomePage1> {
                 },
               ),
             ),
+
+             Padding(
+               padding: const EdgeInsets.only(left: 230, top: 500),
+               child: Container(
+                
+                // decoration: BoxDecoration(
+                //   borderRadius: BorderRadius.circular(10),
+                //   gradient: LinearGradient(
+                //     begin: Alignment.centerLeft,
+                //     end: Alignment.bottomCenter,
+                //     colors: <Color>[
+                //       Color.fromARGB(255, 184, 102, 236),
+                //       Color.fromARGB(255, 140, 233, 244),
+                //     ],
+                //   ),
+                // ),
+                // child: Padding(
+                //   padding: const EdgeInsets.all(1.0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                //     children: [
+                //       Text(
+                //         'Add Events',
+                //         style: TextStyle(fontSize: 24),
+                //       ),
+                //       InkWell(
+                //         onTap: () {
+                //           Navigator.push(
+                //             context,
+                //             MaterialPageRoute(
+                //               builder: (context) => AddPostScreen(),
+                //             ),
+                //           );
+                //         },
+                //         child: Image.asset(
+                //           'assets/images/icon.png',
+                //           height: 60,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+             
+                child:InkWell(
+                  
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddPostScreen(),
+                            ),
+                          );
+                        },
+                        child: Image.asset(
+                          'assets/images/icon.png',
+                          height: 150,
+                        ),
+                      ),
+             
+               ),
+             ),
           ],
         ),
       ),
