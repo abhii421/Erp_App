@@ -77,7 +77,7 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
         ),
          colorLineSelected: const Color.fromARGB(255, 251, 162, 45)
         ),
-        const MyWidget(),
+        const SettingPage(),
       ),
 
         ScreenHiddenDrawer(

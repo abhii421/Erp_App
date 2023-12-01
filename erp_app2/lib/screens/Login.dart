@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:ffi';
 import 'package:erp_app2/hidden_drawer.dart';
+import 'package:erp_app2/screen2/adminpage.dart';
+import 'package:erp_app2/screen3/faculty_page.dart';
+import 'package:erp_app2/screens/Homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -38,7 +41,7 @@ class _LoginState extends State<Login> {
   // ignore: unused_field
   String _password = '';
 
-  // Toggles the password show status
+
   void _toggle() {
     setState(() {
       _obscureText1 = !_obscureText1;
@@ -137,13 +140,22 @@ Future<void> login() async {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body.toString());
       var myToken = data['token'];
+       var userRole = data['role']; // Assuming 'role' is the key for the user's role
       prefs.setString('token' , myToken);
+      prefs.setString('role', userRole);
+
 
       print(data['token']);
+
+        print('Login successful. Role: $userRole');
       print('login succesfully');
 
        await sendTokenToAdmin(myToken);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HiddenDrawer(token: myToken,)));
+       
+      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HiddenDrawer(token: myToken,)));
+
+        // Navigate based on user's role
+        navigateBasedOnRole(userRole);
     } else {
       print("error");
     }
@@ -170,6 +182,33 @@ Future<void> login() async {
     );
   }
 }
+
+ void navigateBasedOnRole(String userRole) {
+    switch (userRole) {
+      case 'admin':
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Admin_Page() ),
+        );
+        break;
+      case 'student':
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HiddenDrawer()),
+        );
+        break;
+      case 'faculty':
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Faculty_Page()),
+        );
+        break;
+      default:
+        print('Unknown role: $userRole');
+        // Handle unknown roles or navigate to a default screen
+        break;
+    }
+  }
 
 // Function to send token in the header to the admin
 Future<void> sendTokenToAdmin(String token) async {
@@ -471,19 +510,7 @@ Future<void> sendTokenToAdmin(String token) async {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // ElevatedButton.icon(
-                          //   onPressed: () {
-                          //     Navigator.push(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //           builder: (context) => const SignUP(),
-                          //         ));
-                          //   },
-                          //   label: Text("Signup"),
-                          //   icon: const Icon(
-                          //     Icons.arrow_back_sharp,
-                          //   ),
-                          // ),
+
 
                           GestureDetector(
                             onTap: () {
