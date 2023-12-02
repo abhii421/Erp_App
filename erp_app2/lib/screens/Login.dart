@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:ffi';
-
 import 'package:erp_app2/hidden_drawer.dart';
+import 'package:erp_app2/screen2/adminpage.dart';
+import 'package:erp_app2/screen3/faculty_page.dart';
+import 'package:erp_app2/screens/Homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -39,7 +41,7 @@ class _LoginState extends State<Login> {
   // ignore: unused_field
   String _password = '';
 
-  // Toggles the password show status
+
   void _toggle() {
     setState(() {
       _obscureText1 = !_obscureText1;
@@ -97,7 +99,7 @@ class _LoginState extends State<Login> {
 
 
 Future<void> login() async {
-  final String endpoint = "http://3.109.124.174:1313/api/login/";
+  final String endpoint = "https://erp.anaskhan.site/api/login/";
 
   // Validate username
   if (emailController.text.isEmpty) {
@@ -138,13 +140,22 @@ Future<void> login() async {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body.toString());
       var myToken = data['token'];
+       var userRole = data['role']; // Assuming 'role' is the key for the user's role
       prefs.setString('token' , myToken);
+      prefs.setString('role', userRole);
+
 
       print(data['token']);
+
+        print('Login successful. Role: $userRole');
       print('login succesfully');
 
        await sendTokenToAdmin(myToken);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HiddenDrawer(token: myToken,)));
+       
+      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HiddenDrawer(token: myToken,)));
+
+        // Navigate based on user's role
+        navigateBasedOnRole(userRole);
     } else {
       print("error");
     }
@@ -172,9 +183,36 @@ Future<void> login() async {
   }
 }
 
+ void navigateBasedOnRole(String userRole) {
+    switch (userRole) {
+      case 'admin':
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Admin_Page() ),
+        );
+        break;
+      case 'student':
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HiddenDrawer()),
+        );
+        break;
+      case 'faculty':
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Faculty_Page()),
+        );
+        break;
+      default:
+        print('Unknown role: $userRole');
+        // Handle unknown roles or navigate to a default screen
+        break;
+    }
+  }
+
 // Function to send token in the header to the admin
 Future<void> sendTokenToAdmin(String token) async {
-  final adminEndpoint = 'http://3.109.124.174:1313/api/show_attendance_report/';
+  final adminEndpoint = 'https://erp.anaskhan.site/api/show_attendance_report/';
 
   final response = await http.get(
     Uri.parse(adminEndpoint),
@@ -304,7 +342,13 @@ Future<void> sendTokenToAdmin(String token) async {
     final h = MediaQuery.sizeOf(context).height;
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(),
+        decoration: const BoxDecoration(
+
+          // image: DecorationImage(
+          //   image: AssetImage("assets/images/Login screen 2 phone (2).png"),
+          //   fit: BoxFit.cover,
+          // ),
+        ),
         child: Center(
           child: Padding(
             padding: const EdgeInsets.all(15.0),
@@ -314,13 +358,14 @@ Future<void> sendTokenToAdmin(String token) async {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      height: 280,
+                      height: 290,
                       width: 400,
                       child: Lottie.network(
-                          'https://lottie.host/e812138e-b6b4-4c4c-b187-b3b402574740/3qniRfkxZa.json'),
+                          'https://lottie.host/e812138e-b6b4-4c4c-b187-b3b402574740/3qniRfkxZa.json'
+                              ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(5.0),
                       child: Form(
                         key: _formkey,
                         child: Column(
@@ -465,19 +510,7 @@ Future<void> sendTokenToAdmin(String token) async {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // ElevatedButton.icon(
-                          //   onPressed: () {
-                          //     Navigator.push(
-                          //         context,
-                          //         MaterialPageRoute(
-                          //           builder: (context) => const SignUP(),
-                          //         ));
-                          //   },
-                          //   label: Text("Signup"),
-                          //   icon: const Icon(
-                          //     Icons.arrow_back_sharp,
-                          //   ),
-                          // ),
+
 
                           GestureDetector(
                             onTap: () {

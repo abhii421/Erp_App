@@ -1,4 +1,8 @@
 import 'dart:ffi';
+import 'package:erp_app2/Events/Event_page.dart';
+import 'package:erp_app2/Events/add_post.dart';
+import 'package:erp_app2/screen2/adminpage.dart';
+import 'package:erp_app2/screens/Fees.dart';
 import 'package:erp_app2/screens/Homepage.dart';
 import 'package:erp_app2/screens/settingpage.dart';
 import 'package:erp_app2/signout.dart';
@@ -94,7 +98,47 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
         ),
         New(token: '')
          
-      )
+      ),
+
+       ScreenHiddenDrawer(
+        ItemHiddenMenu(
+        name: 'Events',
+        baseStyle: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ), 
+        selectedStyle: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+
+        ),
+         colorLineSelected: const Color.fromARGB(255, 251, 162, 45)
+        ),
+        MyHomePage1(),
+      ),
+
+         ScreenHiddenDrawer(
+        ItemHiddenMenu(
+          
+        name: 'Payment History',
+        baseStyle: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+          
+
+        ), 
+        selectedStyle: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+        colorLineSelected: const Color.fromARGB(255, 251, 162, 45)
+        ),
+          YourClassName(),
+      ),
     ];
   }
   @override
@@ -113,9 +157,13 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
       backgroundColorMenu: Color.fromARGB(255, 199, 181, 246) ,
       screens: _pages, 
       initPositionSelected: 0,
+      
       slidePercent: 50,
       contentCornerRadius: 25,
       boxShadow: [],
+          // verticalScalePercent: 80.0,
+        //    contentCornerRadius: 10.0,
+        //  elevationAppBar: 100.0
 
 
       
