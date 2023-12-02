@@ -128,7 +128,11 @@
 
 import 'dart:ui';
 
+import 'package:erp_app2/Events/Event_page.dart';
+import 'package:erp_app2/Events/add_post.dart';
+import 'package:erp_app2/screen2/Event_page2.dart';
 import 'package:flutter/material.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class Admin_Page extends StatefulWidget {
   const Admin_Page({Key? key}) : super(key: key);
@@ -138,7 +142,17 @@ class Admin_Page extends StatefulWidget {
 }
 
 class _Admin_PageState extends State<Admin_Page> {
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDate;
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDate = _focusedDay;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -210,14 +224,25 @@ class _Admin_PageState extends State<Admin_Page> {
               ),
 
               ListTile(
-                onTap: () {},
+                onTap: () {
+
+                   Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddPostScreen(),
+                            ),
+                          );
+
+                  
+                },
                 leading: Icon(
                   Icons.speed_rounded,
                   color: Colors.white,
                 ),
                 title: Text(
-                  "Account",
-                  style: TextStyle(color: Colors.white),
+                  "Add Events",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  
                 ),
                 subtitle: Text(
                   "Personal",
@@ -226,17 +251,27 @@ class _Admin_PageState extends State<Admin_Page> {
                 trailing: Icon(Icons.edit, color: Colors.white),
               ),
               ListTile(
-                onTap: () {},
+                onTap: () {
+
+                   Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyHomePage2(),
+                            ),
+                          );
+
+
+                },
                 leading: Icon(
                   Icons.batch_prediction_rounded,
                   color: Colors.white,
                 ),
                 title: Text(
-                  "Account",
-                  style: TextStyle(color: Colors.white),
+                  "Events",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 subtitle: Text(
-                  "Personal",
+                  "College",
                   style: TextStyle(color: Colors.white),
                 ),
                 trailing: Icon(Icons.edit, color: Colors.white),
@@ -292,14 +327,14 @@ class _Admin_PageState extends State<Admin_Page> {
                         onPressed: () {
                           _scaffoldKey.currentState!.openDrawer();
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.menu_sharp,
                           size: 30,
                           color: Colors.white,
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 0,
                     ),
                     Container(
@@ -325,11 +360,20 @@ class _Admin_PageState extends State<Admin_Page> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Image.asset(
-                                    'assets/images/icon.png',
-                                    height: 100,
-                                  ),
+                                  // Image.asset(
+                                  //   'assets/images/icon.png',
+                                  //   height: 100,
+                                  // ),
 
+                                  CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                        'assets/images/B6F8D318-51DD-43B4-8A96-0FAD923E6033.jpeg'),
+                                    radius: 40,
+                                    backgroundColor: Colors.transparent,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
                                   Column(
                                     children: [
                                       Text(
@@ -348,9 +392,21 @@ class _Admin_PageState extends State<Admin_Page> {
                                     ],
                                   ),
 
-                                  Image.asset(
-                                    'assets/images/icon.png',
-                                    height: 100,
+                                  // Image.asset(
+                                  //   'assets/images/6BB89A8D-CEF5-44E6-9785-9349DC7C96FC.jpeg',
+                                  //   height: 100,
+                                  // ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+
+                                  CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                        'assets/images/6BB89A8D-CEF5-44E6-9785-9349DC7C96FC.jpeg'),
+                                    radius: 40,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
                                   ),
 
                                   Column(children: [
@@ -487,79 +543,412 @@ class _Admin_PageState extends State<Admin_Page> {
               SizedBox(
                 height: 20,
               ),
-              Container(
-                alignment: Alignment.center,
-                height: 270,
-                width: 360,
-                child: Card(
-                  shadowColor: Colors.white,
-                  color: Color.fromARGB(255, 141, 150, 218),
-                  elevation: 12,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(
-                        sigmaX: 5,
-                        sigmaY: 5,
+              Padding(
+                padding: const EdgeInsets.only(left: 8, right: 8),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    height: 388,
+                    width: 500,
+                    child: Card(
+                      shadowColor: Colors.white,
+                      color: Color.fromARGB(255, 141, 150, 218),
+                      elevation: 12,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.0),
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Align(
-                              //   alignment: Alignment.topLeft,
-                              //   child: Text(
-                              //     ' Estimated Cgpa:-',
-                              //     style: TextStyle(
-                              //         fontSize: 18,
-                              //         fontWeight: FontWeight.normal,
-                              //         color: const Color.fromARGB(
-                              //             255, 120, 119, 119)),
-                              //   ),
-                              // ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(
+                            sigmaX: 5,
+                            sigmaY: 5,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Align(
+                                  //   alignment: Alignment.topLeft,
+                                  //   child: Text(
+                                  //     ' Estimated Cgpa:-',
+                                  //     style: TextStyle(
+                                  //         fontSize: 18,
+                                  //         fontWeight: FontWeight.normal,
+                                  //         color: const Color.fromARGB(
+                                  //             255, 120, 119, 119)),
+                                  //   ),
+                                  // ),
 
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 10, left: 10),
-                                child: Column(children: [
-                                  Text(
-                                    ' Estimated Cgpa:-',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(top: 5, left: 0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          ' Faculty Name',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 0,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              ' Monika',
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Colors.white),
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            IconButton(
+                                              onPressed: () {},
+                                              icon: Icon(Icons.arrow_drop_down),
+                                              iconSize: 32,
+                                              color: Colors.white,
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Container(
+                                            height: 250,
+                                            width: 250,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: TableCalendar(
+
+                                              
+                                              shouldFillViewport: true,
+
+                                              
+
+                                              focusedDay:
+                                                  _focusedDay, // focus current day
+                                              firstDay: DateTime(2023),
+                                              lastDay: DateTime(2024),
+                                              calendarFormat: _calendarFormat,
+
+                                              onDaySelected:
+                                                  (selectedDay, focusedDay) {
+                                                if (!isSameDay(_selectedDate,
+                                                    selectedDay)) {
+                                                  // call setsa. to update selected day
+
+                                                  setState(() {
+                                                    _selectedDate = selectedDay;
+                                                    _focusedDay = focusedDay;
+                                                  });
+                                                }
+                                              },
+
+                                              selectedDayPredicate: (day) {
+                                                return isSameDay(
+                                                    _selectedDate, day);
+                                              },
+
+                                              onFormatChanged: (format) {
+                                                if (_calendarFormat != format) {
+                                                  setState(() {
+                                                    _calendarFormat = format;
+                                                  });
+                                                }
+                                              },
+
+                                              onPageChanged: (focusedDay) {
+                                                _focusedDay = focusedDay;
+                                              },
+                                            )),
+                                      ],
                                     ),
                                   ),
+
                                   SizedBox(
-                                    height: 8,
+                                    width: 25,
                                   ),
-                                  Text(
-                                    ' Estimated Cgpa:-',
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.white),
+
+                                  // Align(
+                                  //     alignment: Alignment.topRight,
+                                  //     child: Image.asset(
+                                  //         'assets/images/Login screen 2 phone (2).png',
+                                  //         height: 200)),
+
+                                  Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 80),
+                                        child: Container(
+                                          height: 30,
+                                          width: 80,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(100),
+                                              color: const Color.fromARGB(255, 250, 182, 93)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text('8:30 a.m.',
+                                                style: TextStyle(
+                                                    color: Colors.white)),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Container(
+                                        height: 30,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            color: const Color.fromARGB(255, 250, 182, 93)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text('9:20 a.m.',
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Container(
+                                        height: 30,
+                                        width: 82,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            color: const Color.fromARGB(255, 250, 182, 93)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text('11:00 a.m.',
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Container(
+                                        height: 30,
+                                        width: 82,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            color: const Color.fromARGB(255, 250, 182, 93)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text('11:50 a.m.',
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                        height: 30,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            color: const Color.fromARGB(255, 250, 182, 93)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text('1:30 a.m.',
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                      ),
+
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Container(
+                                        height: 30,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            color: const Color.fromARGB(255, 250, 182, 93)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text('2:20 a.m.',
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Container(
+                                        height: 30,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(100),
+                                            color: const Color.fromARGB(255, 250, 182, 93)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text('3:10 a.m.',
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ]),
-                              ),
+                                  SizedBox(width: 10,),
 
-                              SizedBox(
-                                width: 60,
-                              ),
 
-                              Align(
-                                  alignment: Alignment.topRight,
-                                  child: Image.asset(
-                                      'assets/images/Login screen 2 phone (2).png',
-                                      height: 170)),
-                            ],
+                                    Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 80),
+                                        child: Container(
+                                           alignment: Alignment.center,
+                                          height: 30,
+                                          width: 80,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: Color.fromARGB(255, 255, 255, 255)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text('DSA',
+                                                style: TextStyle(
+                                                    color: Colors.black)),
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Container(
+                                        alignment: Alignment.center,
+                                        height: 30,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Color.fromARGB(255, 255, 255, 255)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text('UHV',
+                                              style: TextStyle(
+                                                  color: Colors.black)),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Container(
+                                         alignment: Alignment.center,
+                                        height: 30,
+                                        width: 82,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Color.fromARGB(255, 255, 255, 255)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text('COA',
+                                              style: TextStyle(
+                                                  color: Colors.black)),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Container(
+                                         alignment: Alignment.center,
+                                        height: 30,
+                                        width: 82,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Color.fromARGB(255, 255, 255, 255)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text('Discrete',
+                                              style: TextStyle(
+                                                  color: Colors.black)),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                         alignment: Alignment.center,
+                                        height: 30,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Color.fromARGB(255, 255, 255, 255)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text('Soft Skill',
+                                              style: TextStyle(
+                                                  color: Colors.black)),
+                                        ),
+                                      ),
+
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Container(
+                                         alignment: Alignment.center,
+                                        height: 30,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Color.fromARGB(255, 255, 255, 255)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text('2:20 a.m.',
+                                              style: TextStyle(
+                                                  color: Colors.black)),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Container(
+                                         alignment: Alignment.center,
+                                        height: 30,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: Color.fromARGB(255, 255, 255, 255)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text('Math-IV',
+                                              style: TextStyle(
+                                                  color: Colors.black)),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -568,14 +957,14 @@ class _Admin_PageState extends State<Admin_Page> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 25, top: 10, bottom: 20),
+                padding: const EdgeInsets.only(left: 10, top: 10, bottom: 20),
                 child: Row(
                   children: [
                     Column(
                       children: [
                         Container(
                           alignment: Alignment.center,
-                          height: 100,
+                          height: 70,
                           width: 200,
                           child: Card(
                             shadowColor: Colors.white,
@@ -596,7 +985,8 @@ class _Admin_PageState extends State<Admin_Page> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -611,10 +1001,10 @@ class _Admin_PageState extends State<Admin_Page> {
                                         //             255, 120, 119, 119)),
                                         //   ),
                                         // ),
-              
+
                                         Padding(
                                           padding: const EdgeInsets.only(
-                                              top: 15, left: 0),
+                                              top: 0, left: 0),
                                           child: Column(children: [
                                             Text(
                                               ' Estimated Cgpa',
@@ -624,7 +1014,7 @@ class _Admin_PageState extends State<Admin_Page> {
                                                 color: Colors.white,
                                               ),
                                             ),
-              
+
                                             // Text(
                                             //   ' Estimated Cgpa',
                                             //   style: TextStyle(
@@ -634,8 +1024,6 @@ class _Admin_PageState extends State<Admin_Page> {
                                             // ),
                                           ]),
                                         ),
-              
-              
                                       ],
                                     ),
                                   ),
@@ -644,9 +1032,12 @@ class _Admin_PageState extends State<Admin_Page> {
                             ),
                           ),
                         ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Container(
                           alignment: Alignment.center,
-                          height: 100,
+                          height: 70,
                           width: 200,
                           child: Card(
                             shadowColor: Colors.white,
@@ -667,7 +1058,8 @@ class _Admin_PageState extends State<Admin_Page> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
@@ -682,10 +1074,10 @@ class _Admin_PageState extends State<Admin_Page> {
                                         //             255, 120, 119, 119)),
                                         //   ),
                                         // ),
-              
+
                                         Padding(
                                           padding: const EdgeInsets.only(
-                                              top: 15, left: 5),
+                                              top: 0, left: 0),
                                           child: Column(children: [
                                             Center(
                                               child: Text(
@@ -697,12 +1089,8 @@ class _Admin_PageState extends State<Admin_Page> {
                                                 ),
                                               ),
                                             ),
-              
-              
                                           ]),
                                         ),
-              
-              
                                       ],
                                     ),
                                   ),
@@ -712,7 +1100,7 @@ class _Admin_PageState extends State<Admin_Page> {
                           ),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               )
@@ -721,5 +1109,9 @@ class _Admin_PageState extends State<Admin_Page> {
         ),
       ),
     );
+  }
+
+  bool _isSelectedDay(DateTime day) {
+    return isSameDay(_selectedDate, day);
   }
 }

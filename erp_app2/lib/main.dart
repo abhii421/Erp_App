@@ -11,7 +11,8 @@ void main() async {
   runApp(MyApp(
     token: prefs.getString('token'),
   ));
-  print(prefs.getString('token'));
+  print(prefs.getString('token'),
+  );
 }
 
 class MyApp extends StatelessWidget {

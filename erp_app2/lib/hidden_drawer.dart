@@ -5,6 +5,7 @@ import 'package:erp_app2/screen2/adminpage.dart';
 import 'package:erp_app2/screens/Fees.dart';
 import 'package:erp_app2/screens/Homepage.dart';
 import 'package:erp_app2/screens/settingpage.dart';
+import 'package:erp_app2/screens/timetable.dart';
 import 'package:erp_app2/signout.dart';
 import 'package:erp_app2/test/test1.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +78,7 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
         ),
          colorLineSelected: const Color.fromARGB(255, 251, 162, 45)
         ),
-        const SettingPage(),
+        const Admin_Page(),
       ),
 
         ScreenHiddenDrawer(
@@ -117,6 +118,25 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
          colorLineSelected: const Color.fromARGB(255, 251, 162, 45)
         ),
         MyHomePage1(),
+      ),
+
+       ScreenHiddenDrawer(
+        ItemHiddenMenu(
+        name: 'Timetable',
+        baseStyle: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ), 
+        selectedStyle: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+
+        ),
+         colorLineSelected: const Color.fromARGB(255, 251, 162, 45)
+        ),
+        Timetable(),
       ),
 
          ScreenHiddenDrawer(
