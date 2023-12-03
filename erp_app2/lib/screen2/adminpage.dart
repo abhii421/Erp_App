@@ -1,128 +1,3 @@
-// import 'package:flutter/material.dart';
-
-// class MyWidget extends StatefulWidget {
-
-//   const MyWidget({super.key});
-
-//   @override
-//   State<MyWidget> createState() => _MyWidgetState();
-// }
-
-// class _MyWidgetState extends State<MyWidget> {
-//    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       drawer:
-//       Drawer(
-//             child: ListView(
-//               padding: EdgeInsets.zero,
-//               children: <Widget>[
-//                 DrawerHeader(
-//                   decoration: BoxDecoration(color: Colors.blue),
-//                   child: UserAccountsDrawerHeader(
-//                     accountName: Text('ffsdfsd'),
-//                     accountEmail: Text(' fdff'),
-//                     currentAccountPicture: CircleAvatar(
-//                       backgroundImage: AssetImage(''),
-//                     ),
-//                   ),
-//                 ),
-//                 ListTile(
-//                   onTap:() {
-
-//                   },
-//                   leading: Icon(Icons.person),
-//                   title: Text("Account"),
-//                   subtitle: Text("Personal"),
-//                   trailing: Icon(Icons.edit),
-//                 ),
-//                 ListTile(
-//                   leading: Icon(Icons.person),
-//                   title: Text("Account"),
-//                   subtitle: Text("Personal"),
-//                   trailing: Icon(Icons.share),
-//                 ),
-//                 ListTile(
-//                   leading: Icon(Icons.person),
-//                   title: Text("Account"),
-//                   subtitle: Text("Personal"),
-//                   trailing: Icon(Icons.shape_line_rounded),
-//                 ),
-//                 ListTile(
-//                   leading: Icon(Icons.person),
-//                   title: Text("Signout"),
-//                   subtitle: Text("Signout from here"),
-//                   trailing: Icon(Icons.edit),
-//                 ),
-//               ],
-//             ),
-//           ),
-
-//       body: Column(
-//         children: [
-
-//           IconButton(
-//             onPressed: (){
-//             // icon: const Icon(Icons.remove_red_eye_sharp)
-//             onPressed: () {
-
-//              Scaffold.of(context).openDrawer();
-//              };
-//                  tooltip: 'Open Drawer';
-
-//             },
-//             icon: Icon(Icons.abc_rounded),
-//             ),
-//           Container(
-
-//             child: Column(
-//               children: [
-//                  IconButton(
-//             onPressed: (){
-//             // icon: const Icon(Icons.remove_red_eye_sharp)
-//             onPressed: () {
-
-//              Scaffold.of(context).openDrawer();
-//              };
-//                  tooltip: 'Open Drawer';
-
-//             },
-//             icon: Icon(Icons.abc_rounded),
-//             ),
-//               ],
-//             ),
-//             width: MediaQuery.of(context).size.width,
-//             height: 170,
-
-//             // decoration: const BoxDecoration(
-//             //     gradient: LinearGradient(
-//             //   colors: [Color(0xFFFACCCC), Color(0xFFF6EFE9)],
-
-//             // )),
-
-//             decoration: BoxDecoration(
-//                         // color: Colors.grey.shade400,
-//                         color: const Color.fromARGB(255, 190, 157, 249),
-//                         boxShadow: [
-//                           BoxShadow(
-//                               blurRadius: 5,
-//                               spreadRadius: 5,
-//                               color: Color.fromARGB(255, 138, 119, 166))
-//                         ],
-//                         // borderRadius: const BorderRadius.only(
-//                         //     bottomLeft: Radius.circular(80),
-//                         //     bottomRight: Radius.circular(80)),
-//                             ),
-
-//           )
-//         ],
-//       ),
-
-//     );
-//   }
-// }
 
 // import 'dart:js_util';
 
@@ -131,7 +6,10 @@ import 'dart:ui';
 import 'package:erp_app2/Events/Event_page.dart';
 import 'package:erp_app2/Events/add_post.dart';
 import 'package:erp_app2/screen2/Event_page2.dart';
+import 'package:erp_app2/screen2/student_attendance.dart';
+import 'package:erp_app2/signout.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class Admin_Page extends StatefulWidget {
@@ -158,157 +36,185 @@ class _Admin_PageState extends State<Admin_Page> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      drawer: SizedBox(
-        height: 680,
-        child: Drawer(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(20),
-                  bottomRight: Radius.circular(20))),
-          shadowColor: const Color.fromARGB(255, 212, 0, 0),
-          backgroundColor: const Color.fromARGB(255, 177, 139, 244),
-          child: ListView(
-            padding: EdgeInsets.zero,
-            children: <Widget>[
-              // DrawerHeader(
-              //   decoration: BoxDecoration(color: Color.fromARGB(255, 168, 115, 247)),
-              //   // child: UserAccountsDrawerHeader(
-              //   //   accountName: Text('ffsdfsd'),
-              //   //   accountEmail: Text(' fdff'),
-              //   //   currentAccountPicture: CircleAvatar(
-              //   //     backgroundImage: AssetImage(''),
-              //   //   ),
-              //   // ),
-              //   child: Column(
-              //     children: <Widget>[
-              //       Text('SmartEDU', style: TextStyle( color: Colors.white, fontSize: 25),),
+      drawer: Container(
+        child: SingleChildScrollView(
+          child: SizedBox(
+            height: 700,
+            child: Drawer(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      bottomRight: Radius.circular(20))),
+              shadowColor: const Color.fromARGB(255, 212, 0, 0),
+              backgroundColor: const Color.fromARGB(255, 177, 139, 244),
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+                  // DrawerHeader(
+                  //   decoration: BoxDecoration(color: Color.fromARGB(255, 168, 115, 247)),
+                  //   // child: UserAccountsDrawerHeader(
+                  //   //   accountName: Text('ffsdfsd'),
+                  //   //   accountEmail: Text(' fdff'),
+                  //   //   currentAccountPicture: CircleAvatar(
+                  //   //     backgroundImage: AssetImage(''),
+                  //   //   ),
+                  //   // ),
+                  //   child: Column(
+                  //     children: <Widget>[
+                  //       Text('SmartEDU', style: TextStyle( color: Colors.white, fontSize: 25),),
 
-              //       Divider( color: Colors.white, thickness: 20 , height: 20,),
+                  //       Divider( color: Colors.white, thickness: 20 , height: 20,),
 
-              //       Text('fdfffff'),
-              //     ],
-              //   )
-              // ),
-
-              SizedBox(
-                height: 65,
-                child: DrawerHeader(
-                  decoration:
-                      BoxDecoration(color: Color.fromARGB(255, 177, 139, 244)),
-
-                  //       border: Border(
-                  //   bottom: Divider.createBorderSide(context,
-                  //       color: Colors.red, width: 2.0),
+                  //       Text('fdfffff'),
+                  //     ],
+                  //   )
                   // ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center, // Adjusted
-                    children: <Widget>[
-                      Text(
-                        'SmartEDU',
-                        style: TextStyle(color: Colors.white, fontSize: 25),
+
+                  SizedBox(
+                    height: 90,
+                    child: SingleChildScrollView(
+                      child: DrawerHeader(
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 177, 139, 244)),
+
+                        //       border: Border(
+                        //   bottom: Divider.createBorderSide(context,
+                        //       color: Colors.red, width: 2.0),
+                        // ),
+                        child: Column(
+                          crossAxisAlignment:
+                              CrossAxisAlignment.center, // Adjusted
+                          children: <Widget>[
+                            Text(
+                              'SmartEDU',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 25),
+                            ),
+                            // SizedBox(height: 20,),
+
+                            Text('Go Down'),
+                            SizedBox(
+                              height: 5,
+                            ),
+
+                            Container(
+                              height: 80,
+                              width: 90,
+                              child: Lottie.network(
+                                  'https://lottie.host/7f27ac03-f38d-4311-accf-6f6536841c98/dZywMueSmu.json'),
+                            ),
+                            SizedBox(
+                              height: 0,
+                            ),
+                            // Divider(color: Colors.white, thickness: 2, height: 60,  ),
+                            // Text('fdfffff', style: TextStyle(color: Colors.white),),
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                        height: 0,
-                      ),
-                      // Divider(color: Colors.white, thickness: 2, height: 60,  ),
-                      // Text('fdfffff', style: TextStyle(color: Colors.white),),
-                    ],
+                    ),
                   ),
-                ),
+
+                  Divider(
+                    color: Colors.white,
+                    thickness: 2,
+                    height: 60,
+                  ),
+
+                  ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddPostScreen(),
+                        ),
+                      );
+                    },
+                    leading: Icon(
+                      Icons.speed_rounded,
+                      color: Colors.white,
+                    ),
+                    title: Text(
+                      "Add Events",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    subtitle: Text(
+                      "Personal",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    trailing: Icon(Icons.add_box, color: Colors.white),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyHomePage2(),
+                        ),
+                      );
+                    },
+                    leading: Icon(
+                      Icons.batch_prediction_rounded,
+                      color: Colors.white,
+                    ),
+                    title: Text(
+                      "Events",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    subtitle: Text(
+                      "College",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    trailing: Icon(Icons.event, color: Colors.white),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MarkAttendance(),
+                        ),
+                      );
+                    },
+                    leading: Icon(
+                      Icons.star_border_sharp,
+                      color: Colors.white,
+                    ),
+                    title: Text(
+                      "Mark Attendance",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    subtitle: Text(
+                      "Student",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    trailing: Icon(Icons.check, color: Colors.white),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => New(token: ''),
+                        ),
+                      );
+                    },
+                    leading: Icon(
+                      Icons.person,
+                      color: Colors.white,
+                    ),
+                    title: Text(
+                      "Sign Out",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    subtitle: Text(
+                      "Personal",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    trailing: Icon(Icons.exit_to_app, color: Colors.white),
+                  ),
+                ],
               ),
-
-              Divider(
-                color: Colors.white,
-                thickness: 2,
-                height: 60,
-              ),
-
-              ListTile(
-                onTap: () {
-
-                   Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AddPostScreen(),
-                            ),
-                          );
-
-                  
-                },
-                leading: Icon(
-                  Icons.speed_rounded,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  "Add Events",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                  
-                ),
-                subtitle: Text(
-                  "Personal",
-                  style: TextStyle(color: Colors.white),
-                ),
-                trailing: Icon(Icons.edit, color: Colors.white),
-              ),
-              ListTile(
-                onTap: () {
-
-                   Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MyHomePage2(),
-                            ),
-                          );
-
-
-                },
-                leading: Icon(
-                  Icons.batch_prediction_rounded,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  "Events",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-                subtitle: Text(
-                  "College",
-                  style: TextStyle(color: Colors.white),
-                ),
-                trailing: Icon(Icons.edit, color: Colors.white),
-              ),
-              ListTile(
-                onTap: () {},
-                leading: Icon(
-                  Icons.star_border_sharp,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  "Account",
-                  style: TextStyle(color: Colors.white),
-                ),
-                subtitle: Text(
-                  "Personal",
-                  style: TextStyle(color: Colors.white),
-                ),
-                trailing: Icon(Icons.edit, color: Colors.white),
-              ),
-              ListTile(
-                onTap: () {},
-                leading: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                ),
-                title: Text(
-                  "Account",
-                  style: TextStyle(color: Colors.white),
-                ),
-                subtitle: Text(
-                  "Personal",
-                  style: TextStyle(color: Colors.white),
-                ),
-                trailing: Icon(Icons.edit, color: Colors.white),
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -323,14 +229,17 @@ class _Admin_PageState extends State<Admin_Page> {
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
-                      child: IconButton(
-                        onPressed: () {
-                          _scaffoldKey.currentState!.openDrawer();
-                        },
-                        icon: const Icon(
-                          Icons.menu_sharp,
-                          size: 30,
-                          color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: IconButton(
+                          onPressed: () {
+                            _scaffoldKey.currentState!.openDrawer();
+                          },
+                          icon: const Icon(
+                            Icons.menu_sharp,
+                            size: 30,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -446,7 +355,7 @@ class _Admin_PageState extends State<Admin_Page> {
                   ],
                 ),
                 width: MediaQuery.of(context).size.width,
-                height: 180,
+                height: 200,
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 190, 157, 249),
                   boxShadow: [
@@ -462,9 +371,9 @@ class _Admin_PageState extends State<Admin_Page> {
                 height: 20,
               ),
               Container(
+                width: MediaQuery.of(context).size.width,
                 alignment: Alignment.center,
-                height: 200,
-                width: 370,
+                height: 210,
                 child: Card(
                   color: Color.fromARGB(255, 141, 150, 218),
                   elevation: 12,
@@ -503,7 +412,7 @@ class _Admin_PageState extends State<Admin_Page> {
                                     const EdgeInsets.only(top: 10, left: 10),
                                 child: Column(children: [
                                   Text(
-                                    ' Estimated Cgpa:-',
+                                    'Gaurav Yadav ',
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -514,7 +423,7 @@ class _Admin_PageState extends State<Admin_Page> {
                                     height: 8,
                                   ),
                                   Text(
-                                    ' Estimated Cgpa:-',
+                                    'Flutter Dev.',
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.normal,
@@ -524,7 +433,7 @@ class _Admin_PageState extends State<Admin_Page> {
                               ),
 
                               SizedBox(
-                                width: 80,
+                                width: 60,
                               ),
 
                               Align(
@@ -541,7 +450,7 @@ class _Admin_PageState extends State<Admin_Page> {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8, right: 8),
@@ -632,11 +541,7 @@ class _Admin_PageState extends State<Admin_Page> {
                                                 borderRadius:
                                                     BorderRadius.circular(20)),
                                             child: TableCalendar(
-
-                                              
                                               shouldFillViewport: true,
-
-                                              
 
                                               focusedDay:
                                                   _focusedDay, // focus current day
@@ -698,7 +603,8 @@ class _Admin_PageState extends State<Admin_Page> {
                                           decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(100),
-                                              color: const Color.fromARGB(255, 250, 182, 93)),
+                                              color: const Color.fromARGB(
+                                                  255, 250, 182, 93)),
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text('8:30 a.m.',
@@ -716,7 +622,8 @@ class _Admin_PageState extends State<Admin_Page> {
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(100),
-                                            color: const Color.fromARGB(255, 250, 182, 93)),
+                                            color: const Color.fromARGB(
+                                                255, 250, 182, 93)),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text('9:20 a.m.',
@@ -733,7 +640,8 @@ class _Admin_PageState extends State<Admin_Page> {
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(100),
-                                            color: const Color.fromARGB(255, 250, 182, 93)),
+                                            color: const Color.fromARGB(
+                                                255, 250, 182, 93)),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text('11:00 a.m.',
@@ -750,7 +658,8 @@ class _Admin_PageState extends State<Admin_Page> {
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(100),
-                                            color: const Color.fromARGB(255, 250, 182, 93)),
+                                            color: const Color.fromARGB(
+                                                255, 250, 182, 93)),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text('11:50 a.m.',
@@ -767,7 +676,8 @@ class _Admin_PageState extends State<Admin_Page> {
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(100),
-                                            color: const Color.fromARGB(255, 250, 182, 93)),
+                                            color: const Color.fromARGB(
+                                                255, 250, 182, 93)),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text('1:30 a.m.',
@@ -775,7 +685,6 @@ class _Admin_PageState extends State<Admin_Page> {
                                                   color: Colors.white)),
                                         ),
                                       ),
-
                                       SizedBox(
                                         height: 8,
                                       ),
@@ -785,7 +694,8 @@ class _Admin_PageState extends State<Admin_Page> {
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(100),
-                                            color: const Color.fromARGB(255, 250, 182, 93)),
+                                            color: const Color.fromARGB(
+                                                255, 250, 182, 93)),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text('2:20 a.m.',
@@ -802,7 +712,8 @@ class _Admin_PageState extends State<Admin_Page> {
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(100),
-                                            color: const Color.fromARGB(255, 250, 182, 93)),
+                                            color: const Color.fromARGB(
+                                                255, 250, 182, 93)),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text('3:10 a.m.',
@@ -812,21 +723,23 @@ class _Admin_PageState extends State<Admin_Page> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(width: 10,),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
 
-
-                                    Column(
+                                  Column(
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.only(top: 80),
                                         child: Container(
-                                           alignment: Alignment.center,
+                                          alignment: Alignment.center,
                                           height: 30,
                                           width: 80,
                                           decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(10),
-                                              color: Color.fromARGB(255, 255, 255, 255)),
+                                              color: Color.fromARGB(
+                                                  255, 255, 255, 255)),
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text('DSA',
@@ -845,7 +758,8 @@ class _Admin_PageState extends State<Admin_Page> {
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            color: Color.fromARGB(255, 255, 255, 255)),
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255)),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text('UHV',
@@ -857,13 +771,14 @@ class _Admin_PageState extends State<Admin_Page> {
                                         height: 8,
                                       ),
                                       Container(
-                                         alignment: Alignment.center,
+                                        alignment: Alignment.center,
                                         height: 30,
                                         width: 82,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            color: Color.fromARGB(255, 255, 255, 255)),
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255)),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text('COA',
@@ -875,13 +790,14 @@ class _Admin_PageState extends State<Admin_Page> {
                                         height: 8,
                                       ),
                                       Container(
-                                         alignment: Alignment.center,
+                                        alignment: Alignment.center,
                                         height: 30,
                                         width: 82,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            color: Color.fromARGB(255, 255, 255, 255)),
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255)),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text('Discrete',
@@ -893,13 +809,14 @@ class _Admin_PageState extends State<Admin_Page> {
                                         height: 5,
                                       ),
                                       Container(
-                                         alignment: Alignment.center,
+                                        alignment: Alignment.center,
                                         height: 30,
                                         width: 80,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            color: Color.fromARGB(255, 255, 255, 255)),
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255)),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text('Soft Skill',
@@ -907,18 +824,18 @@ class _Admin_PageState extends State<Admin_Page> {
                                                   color: Colors.black)),
                                         ),
                                       ),
-
                                       SizedBox(
                                         height: 8,
                                       ),
                                       Container(
-                                         alignment: Alignment.center,
+                                        alignment: Alignment.center,
                                         height: 30,
                                         width: 80,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            color: Color.fromARGB(255, 255, 255, 255)),
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255)),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text('2:20 a.m.',
@@ -930,13 +847,14 @@ class _Admin_PageState extends State<Admin_Page> {
                                         height: 8,
                                       ),
                                       Container(
-                                         alignment: Alignment.center,
+                                        alignment: Alignment.center,
                                         height: 30,
                                         width: 80,
                                         decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
-                                            color: Color.fromARGB(255, 255, 255, 255)),
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255)),
                                         child: Padding(
                                           padding: const EdgeInsets.all(8.0),
                                           child: Text('Math-IV',
@@ -1035,6 +953,8 @@ class _Admin_PageState extends State<Admin_Page> {
                         SizedBox(
                           height: 10,
                         ),
+
+                        
                         Container(
                           alignment: Alignment.center,
                           height: 70,
