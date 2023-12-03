@@ -5,12 +5,12 @@ import 'package:erp_app2/Events/add_post.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class MyHomePage1 extends StatefulWidget {
+class MyHomePage2 extends StatefulWidget {
   @override
-  _MyHomePage1State createState() => _MyHomePage1State();
+  _MyHomePage2State createState() => _MyHomePage2State();
 }
 
-class _MyHomePage1State extends State<MyHomePage1> {
+class _MyHomePage2State extends State<MyHomePage2> {
   List<Map<String, dynamic>> eventData = [];
 
   @override
@@ -65,6 +65,11 @@ class _MyHomePage1State extends State<MyHomePage1> {
         // );
 
         Scaffold(
+          appBar: AppBar(
+            title: Text('Events'),
+            centerTitle: true,
+            backgroundColor: Color.fromARGB(255, 180, 141, 249),
+          ),
       body: Padding(
         
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
@@ -161,7 +166,7 @@ class _MyHomePage1State extends State<MyHomePage1> {
             ),
 
              Padding(
-               padding: const EdgeInsets.only(left: 260, top: 550),
+               padding: const EdgeInsets.only(left: 230, top: 500),
                child: Container(
                 
                 // decoration: BoxDecoration(
@@ -202,21 +207,21 @@ class _MyHomePage1State extends State<MyHomePage1> {
                 //   ),
                 // ),
              
-                child:InkWell(
+                // child:InkWell(
                   
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AddPostScreen(),
-                            ),
-                          );
-                        },
-                        child: Image.asset(
-                          'assets/images/icon.png',
-                          height: 130,
-                        ),
-                      ),
+                //         onTap: () {
+                //           Navigator.push(
+                //             context,
+                //             MaterialPageRoute(
+                //               builder: (context) => AddPostScreen(),
+                //             ),
+                //           );
+                //         },
+                //         child: Image.asset(
+                //           'assets/images/icon.png',
+                //           height: 130,
+                //         ),
+                //       ),
              
                ),
              ),

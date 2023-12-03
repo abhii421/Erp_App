@@ -2,9 +2,11 @@ import 'dart:ffi';
 import 'package:erp_app2/Events/Event_page.dart';
 import 'package:erp_app2/Events/add_post.dart';
 import 'package:erp_app2/screen2/adminpage.dart';
+import 'package:erp_app2/screen2/student_attendance.dart';
 import 'package:erp_app2/screens/Fees.dart';
 import 'package:erp_app2/screens/Homepage.dart';
 import 'package:erp_app2/screens/settingpage.dart';
+import 'package:erp_app2/screens/timetable.dart';
 import 'package:erp_app2/signout.dart';
 import 'package:erp_app2/test/test1.dart';
 import 'package:flutter/material.dart';
@@ -34,8 +36,23 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
 
     // email = jwtDecodedToken['email'];
       
-   Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
-    email = jwtDecodedToken['email'] ?? 'DefaultEmail'; // Use a default value or handle it accordingly
+  //  Map<String, dynamic> jwtDecodedToken = JwtDecoder.decode(widget.token);
+  //   email = jwtDecodedToken['email'] ?? 'DefaultEmail'; // Use a default value or handle it accordingly
+   
+
+
+    Map<String, dynamic>? jwtDecodedToken;
+    try {
+      jwtDecodedToken = JwtDecoder.decode(widget.token);
+    } catch (e) {
+      print('Error decoding token: $e');
+    }
+
+    // Use default value if email is null
+    email = jwtDecodedToken?['email'] ?? 'DefaultEmail';
+
+
+
 
 
 
@@ -63,9 +80,9 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
 
       ScreenHiddenDrawer(
         ItemHiddenMenu(
-        name: 'Setting',
+        name: 'Profile',
         baseStyle: const TextStyle(
-          fontSize: 20,
+          fontSize: 22,
           fontWeight: FontWeight.bold,
           color: Colors.white,
         ), 
@@ -77,7 +94,7 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
         ),
          colorLineSelected: const Color.fromARGB(255, 251, 162, 45)
         ),
-        const SettingPage(),
+         StudentProfileScreen() ,
       ),
 
         ScreenHiddenDrawer(
@@ -117,6 +134,25 @@ class _HiddenDrawerState extends State<HiddenDrawer> {
          colorLineSelected: const Color.fromARGB(255, 251, 162, 45)
         ),
         MyHomePage1(),
+      ),
+
+       ScreenHiddenDrawer(
+        ItemHiddenMenu(
+        name: 'Timetable',
+        baseStyle: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ), 
+        selectedStyle: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+
+        ),
+         colorLineSelected: const Color.fromARGB(255, 251, 162, 45)
+        ),
+        Timetable(),
       ),
 
          ScreenHiddenDrawer(

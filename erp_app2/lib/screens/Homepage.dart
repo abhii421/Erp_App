@@ -30,6 +30,7 @@ class _HomepageState extends State<Homepage> {
   int? selectedSubjectTotalAbsent;
   double? OverallPercentage;
   double? EstimatedCgpa;
+  String? ProfilePhotoUrl;
 
   String? selected1;
   int? selected1TotalPresent;
@@ -46,6 +47,9 @@ class _HomepageState extends State<Homepage> {
   int? TotalAbsent;
   int? TotalPresent;
   int? TotalClasses;
+
+
+    bool isLoading = true; // Add a flag to track loading state
 
   @override
   void initState() {
@@ -93,6 +97,28 @@ class _HomepageState extends State<Homepage> {
         // var estimatedCgpa = jsonData.isNotEmpty ? (jsonData.last[9]['Estimated CGPA'] as num?)?.toDouble() : null;
         // var estimatedCgpa = jsonData.isNotEmpty ? jsonData.last[9]['Estimated CGPA'] as double? : null;
 
+    //      if (jsonData.isNotEmpty) {
+      
+    //   ProfilePhotoUrl = jsonData.last['Profile Photo URL'] as String?;
+    //   print("Profile Photo URL: $ProfilePhotoUrl");
+    // }
+
+       if (jsonData.isNotEmpty) {
+          var lastData = jsonData.last;
+
+          if (lastData.containsKey('Profile Photo URL')) {
+            ProfilePhotoUrl = lastData['Profile Photo URL'] as String?;
+            print("Profile Photo URL: $ProfilePhotoUrl");
+          } else {
+            print("Profile Photo URL not found in the response.");
+          }
+        }
+
+
+
+    String? profilePhotoUrlFromData = jsonData.last['Profile Photo URL'] as String?;
+
+
         var totalPresent = jsonData[5]['total_present'] as int?;
         var totalAbsent = jsonData[6]['total_absent'] as int?;
         var totalClasses = jsonData[7]['total_classes'] as int?;
@@ -112,6 +138,8 @@ class _HomepageState extends State<Homepage> {
               ? estimatedCgpaData['Estimated CGPA'] as double?
               : null;
         }
+
+
 
         var overallPercentage;
         if (jsonData.isNotEmpty) {
@@ -176,6 +204,13 @@ class _HomepageState extends State<Homepage> {
         var fifthSubjectTotalAbsent =
             jsonData.isNotEmpty ? jsonData[4]['total_absent'] as int? : null;
 
+
+              setState(() {
+          isLoading = false;
+        });
+
+
+
         if (firstName != null) {
           setState(() {
             Name = firstName;
@@ -204,6 +239,14 @@ class _HomepageState extends State<Homepage> {
               TotalAbsent = totalAbsent;
             });
           }
+
+
+      if (ProfilePhotoUrl != null) {
+        // Set the profile photo URL in the state
+        setState(() {
+          ProfilePhotoUrl = profilePhotoUrlFromData;
+        });
+      }
           if (overallPercentage != null) {
             setState(() {
               OverallPercentage = overallPercentage;
@@ -254,7 +297,7 @@ class _HomepageState extends State<Homepage> {
             selectedSubjectTotalAbsent = firstSubjectTotalAbsent;
           });
 
-          // Print the selected subject
+          
           print('Selected Subject: $selectedSubject');
         } else {
           print('No subjects found in the response.');
@@ -264,6 +307,10 @@ class _HomepageState extends State<Homepage> {
       }
     } catch (e) {
       print('Error fetching data: $e');
+
+       setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -286,7 +333,11 @@ class _HomepageState extends State<Homepage> {
 
         
       // ),
-      body: Container(
+      body: isLoading
+          ? Center(
+            child: CircularProgressIndicator(),
+          ):
+          Container(
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
           child: Column(
@@ -301,6 +352,15 @@ class _HomepageState extends State<Homepage> {
                     //   'Hello, $Name',
                     //   style: TextStyle(fontSize: 25),
                     // ),
+
+                    Row(
+
+                      children: [
+
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 23, top: 8),
                       child: RichText(
@@ -337,13 +397,72 @@ class _HomepageState extends State<Homepage> {
                         style: TextStyle(fontSize: 18),
                       ),
                     ),
+
+
+                      ]
+                    ),
+                    SizedBox(width: 50,),
+
+                  //   CircleAvatar(
+
+                  //       backgroundImage: ProfilePhotoUrl != null
+                  // ? NetworkImage(ProfilePhotoUrl!)
+                  // : AssetImage('assets/images/6BB89A8D-CEF5-44E6-9785-9349DC7C96FC.jpeg'),
+
+
+                  //                   radius: 35,
+                  //                   backgroundColor: Colors.transparent,
+                  //                 ),
+
+                  GestureDetector(
+                  onTap: (){
+                    showDialog(context: context, builder: (context) {
+                      return Container(
+                        child: CircleAvatar(backgroundImage: NetworkImage(ProfilePhotoUrl!),radius: 50,),
+                      );
+                    },);
+                  },
+                  child: Container(
+                    height: 70,
+                    width: 70,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Colors.black,
+                      )
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: ProfilePhotoUrl!.isNotEmpty
+                       ? Image.network(ProfilePhotoUrl!,
+                        fit: BoxFit.cover,
+                        
+                        loadingBuilder: (context, child , loadingProgress){
+                          if(loadingProgress == null) return child ;
+                          return Center(child: CircularProgressIndicator(),);
+                        },
+                        errorBuilder: (context ,Object, Stack){
+                          return Container(
+                            child: Icon(Icons.error_outline, color: Colors.amber,),
+                          );
+                        }
+                                   ): Center(child: CircularProgressIndicator(),)
+                    ),
+                  ),
+                ),
+
+                  
+
+                    
+                      ]
+                    )
                   ],
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 10,
+                  horizontal: 15,
+                  vertical: 5,
                 ),
                 child: Container(
                   decoration: BoxDecoration(

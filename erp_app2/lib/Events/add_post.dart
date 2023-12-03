@@ -158,7 +158,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                             dio.options.headers["Content-Type"] =
                                 "application/json";
 
-                            // Create a FormData object to wrap the image file
+                         
                             FormData formData = FormData.fromMap({
                               'image': await MultipartFile.fromBytes(
                                   _image!.readAsBytesSync(),
@@ -166,7 +166,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                               'data': dataController.text,
                             });
 
-                            // Replace 'YOUR_API_ENDPOINT_HERE' with your actual API endpoint
+                           
                             final response = await dio.post(
                               'https://erp.anaskhan.site/api/events/',
                               data: formData,
