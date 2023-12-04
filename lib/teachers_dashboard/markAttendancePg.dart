@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:erp_app2/test/token.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -11,6 +12,8 @@ class markAttendancePage extends StatefulWidget {
 }
 
 class _markAttendancePageState extends State<markAttendancePage> {
+TextEditingController dateController = TextEditingController();
+TextEditingController SubjectController = TextEditingController();
 
  // List<String> studentUsernameList = ["student01"];
   //all the students will be in this list (who will be marked absent or present)
@@ -22,8 +25,8 @@ class _markAttendancePageState extends State<markAttendancePage> {
 
 
   void initState(){
-    
     super.initState();
+
     //fetchStudentList();
   }
 
@@ -59,27 +62,54 @@ class _markAttendancePageState extends State<markAttendancePage> {
     //when called, whatever will be the current status it will change the status to opposite
     if(status == true)
     {
-      status = false;
+      setState(() {
+        status = false;
+      });
+      getPresenceStatus();
+      print(status);
     }
 
     else if(status == false)
     {
-      status = true;
+      setState(() {
+        status = true;
+      });
+      getPresenceStatus();
+      print(status);
     }
+
   }
 
-  void getPresenceStatus(){
+
+
+
+
+  String getPresenceStatus()
+{
     String presenceStatus = "A";
+
   if(status == false)
   {
-  presenceStatus = "A";
+  setState(() {
+    presenceStatus = "A";
+  });
+
+  print(presenceStatus);
+  return presenceStatus;
   }
 
   else if(status == true)
   {
-  presenceStatus = "P";
+    setState(() {
+      presenceStatus = "P";
+    });
+
+    print(presenceStatus);
+    return presenceStatus;
   }
-//print(presenceStatus);
+  print(presenceStatus);
+  markAttendance();
+    return presenceStatus;
 }
 
 
@@ -88,24 +118,25 @@ class _markAttendancePageState extends State<markAttendancePage> {
   Future<void> markAttendance() async {
 
     try{
-      
+      dynamic facultytoken = TokenManager.getToken();
+      Map <String, String> header = {
+        'Token': facultytoken,
+        //'Token' : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidGVhY2hlcjAxIiwicm9sZSI6ImZhY3VsdHkifQ.DJTBSU2988OOziUI5bvyuUAFIb4wsrBfMdDzcXbghvs'
+      };
+      getPresenceStatus();
       final response1 = await http.post(
           Uri.parse('https://erp.anaskhan.site/api/mark_attendance/'),
-
+              headers : header,
           body : {
                   "username" : "student01",
-                  "subject_code" : "",//drop down menu se ayega subject code
+                  "subject_code" : "BCS-305",//drop down menu se ayega subject code
                   "date" : "2023-11-25" ,//faculty dashboard me jo calendar hai, us se variable ayega, which will consist of today's date
-                  "status" : "P"
+                  "status" : getPresenceStatus()
       //if faculty is willing to change attn of other dates, we will keep a date picker
       //which will again open the student list tiles, where the status can be changed,
       //in that case, the same body will be used with other dates, just the date picker will give us a
       //variable which can be used in "date" key.
-
-
       },
-
-
       );
 
       
@@ -136,19 +167,19 @@ class _markAttendancePageState extends State<markAttendancePage> {
 
                     onTap: (){
                       print('tapped');
-                      markAttendance();
+                      changeStatusOnClick();
                       },
 
-                    onDoubleTap: (){
-                      print('double tapped');
-                      },
+                    onDoubleTap: (){},
 
                     onSwipe: (){
                       print('Swipped');
+                      changeStatusOnClick();
                       },
 
                     onChanged: (bool status){
                       print('changed');
+                      changeStatusOnClick();
                       },
 
                     colorOff:  Color(0x4C7F75C0),

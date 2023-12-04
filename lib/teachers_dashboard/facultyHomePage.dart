@@ -1,7 +1,7 @@
 import 'package:erp_app2/teachers_dashboard/markAttendancePg.dart';
 import  'package:flutter/material.dart';
 //import 'package:g/markAttendancePage.dart';
-//import 'package:erp_app2/test/token.dart';
+import 'package:erp_app2/test/token.dart';
 import 'dart:convert';
 import 'dart:ui';
 import 'package:http/http.dart' as http;
@@ -18,7 +18,7 @@ class FacultyHomePage extends StatefulWidget {
 
 class _FacultyHomePageState extends State<FacultyHomePage> {
 
-  String facultytoken = "h";
+  //String? facultytoken;
   String? faculty_title;
   String? faculty_firstname;
   String? faculty_firstname1;
@@ -40,7 +40,8 @@ class _FacultyHomePageState extends State<FacultyHomePage> {
 
   Future <void> getFacultyHomePage() async {
     try {
-      //String? facultytoken =  'abc';//await TokenManager.getToken();
+      //String? facultytoken =  'abc';
+      dynamic facultytoken =  TokenManager.getToken();
 
       if (facultytoken == null) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -55,9 +56,9 @@ class _FacultyHomePageState extends State<FacultyHomePage> {
         print('faculty token isnt null');
       }
 
-      var header = {
-        //'Token': facultytoken,
-        'Token' : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidGVhY2hlcjAxIiwicm9sZSI6ImZhY3VsdHkifQ.DJTBSU2988OOziUI5bvyuUAFIb4wsrBfMdDzcXbghvs'
+      Map <String, String>header = {
+        'Token': facultytoken,
+        //'Token' : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidGVhY2hlcjAxIiwicm9sZSI6ImZhY3VsdHkifQ.DJTBSU2988OOziUI5bvyuUAFIb4wsrBfMdDzcXbghvs'
       };
 
 
@@ -72,7 +73,6 @@ class _FacultyHomePageState extends State<FacultyHomePage> {
         setState(() {
           faculty_title = jsonDataMap['title'];
           faculty_firstname = jsonDataMap['fname'];
-          //faculty_firstname1 = faculty_firstname.toUpperCase();
           faculty_lastname = jsonDataMap['lname'];
           faculty_gender = jsonDataMap['gender'];
           faculty_phone = jsonDataMap['phone'];
@@ -103,6 +103,52 @@ class _FacultyHomePageState extends State<FacultyHomePage> {
     //Color(0x9B7F75C1)
     return Scaffold(
       appBar: AppBar(title: Text('SmartEDU', style: TextStyle(color : Colors.white),),centerTitle: true, backgroundColor: Color(0xFF7F75C0),
+      ),
+      drawer: Drawer(backgroundColor: Color(0xFF7F75C0),
+        child: Column(
+            children: [
+              SizedBox(height : 50),
+              Text('SmartEDU', style: TextStyle(color : Colors.white, fontSize: 25),),
+              SizedBox(height : 20),
+              Container(width : 500,
+                height : 1.5,
+                decoration: BoxDecoration(
+                    color : Colors.white.withOpacity(0.5)
+                ),),
+              SizedBox(height : 38),
+              GestureDetector(child: Text('Dashboard', style: TextStyle(color: Colors.white),),
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => FacultyHomePage()));
+                },
+              ),
+              SizedBox(height : 35),
+              GestureDetector(
+                child: Text('Subjects', style : TextStyle(color: Colors.white)),
+
+              ),
+
+              SizedBox(height : 35),
+              GestureDetector(
+                child: Text('Grades', style : TextStyle(color: Colors.white)),
+              ),
+
+              SizedBox(height : 35),
+              GestureDetector(
+                child: Text('Schedule', style : TextStyle(color: Colors.white)),
+              ),
+
+              SizedBox(height : 35),
+              GestureDetector(
+                child: Text('Attendance', style : TextStyle(color: Colors.white)),
+              ),
+              SizedBox(height : 35),
+              GestureDetector(
+                child: Text('Settings', style : TextStyle(color: Colors.white)),
+              ),
+
+
+            ]
+        ),
       ),
       body: Column(
         children: [
